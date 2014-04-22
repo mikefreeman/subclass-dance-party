@@ -6,7 +6,7 @@ var SquareDancer = function(top, left, timeBetweenSteps) {
   // this._blueReverse = true;
   this._green = 0;
   this._oldStep = Dancer.prototype.step;
-  this.$node = $('<span class="squareDancer"></span>');
+  this.$node = $('<span class="squareDancer dancer"></span>');
   Dancer.call(this, top, left, timeBetweenSteps / 30);
 };
 

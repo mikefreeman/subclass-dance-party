@@ -12,25 +12,7 @@ $(document).ready(function(){
     }
   });
 
-  $(".squareDancer").on('click', function() {
-    var distances = [];
-    var left = parseInt($(this).css('left').substr(0, $(this).css('left').length-2));
-    var top = parseInt($(this).css('top').substr(0, $(this).css('top').length-2));
-    for (var j = 0; j < window.dancers.length; j++) {
-      var element2 = window.dancers[j];
-      var distance = Math.abs(top - parseInt(element2.$node.css('top').substr(0, element2.$node.css('top').length-2))) +
-        Math.abs(left - parseInt(element2.$node.css('left').substr(0, element2.$node.css('left').length-2)));
-      distances.push([$(this), element2, distance]);
-    }
-    distances.sort(function(a,b){return a[2]-b[2];});
-    console.log(distances);
-    for (var k = 1; k < 6; k++) {
-      distances[k][1].$node.animate({
-        top: 100,
-        left: 100
-      }, 5000);
-    }
-  });
+
 
   $(".thingy").on("click", function() {
     // var count = 0;
@@ -88,8 +70,37 @@ $(document).ready(function(){
       Math.random() * 1000
     );
 
+
     window.dancers.push(dancer);
     $('body').append(dancer.$node);
+    $(".dancer").hover(function() {
+      var distances = [];
+      var delta = 10;
+      var left = delta + Number($(this).css('left').substr(0, $(this).css('left').length-2));
+      var top = delta + Number($(this).css('top').substr(0, $(this).css('top').length-2));
+      for (var j = 0; j < window.dancers.length; j++) {
+        var element2 = window.dancers[j];
+        var element2Top = delta + Number(element2.$node.css('top').substr(0, element2.$node.css('top').length-2));
+        var element2Left = delta + Number(element2.$node.css('left').substr(0, element2.$node.css('left').length-2));
+        var diffTop = top - element2Top;
+        var diffLeft = left - element2Left;
+        var distance = Math.sqrt(Math.pow(Math.abs(diffTop), 2) + Math.pow(Math.abs(diffLeft), 2));
+        distances.push([$(this), element2, distance, diffTop, diffLeft, element2Top, element2Left]);
+      }
+      distances.sort(function(a,b){return a[2]-b[2];});
+      distances = distances.slice(1, 6);
+      for (var k = 0; k < distances.length; k++) {
+        distances[k][1].$node.text(':-)');
+        distances[k][1].$node.animate({
+          top: distances[k][5] + distances[k][3]*0.25,
+          left: distances[k][6] + distances[k][4]*0.25
+        }, 100);
+      }
+    }, function(){
+      for (var l = 0; l < window.dancers.length; l++){
+        window.dancers[l].$node.text('');
+      }
+    });
     // $(".squareDancer").hover(function() {
     //   $(this).css({'border-width': '50px'});
     //   $(this).text(':-)');
