@@ -39,7 +39,7 @@ SquareDancer.prototype.step = function() {
   // }
 
   this.$node.css({
-    border : "25px solid rgb(" + this._red + ", " +
+    'border-color' : "rgb(" + this._red + ", " +
       this._blue + ", " + this._green + ")"
   });
   // this._red = (this._delta + this._red) % 255;

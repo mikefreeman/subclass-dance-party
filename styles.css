@@ -21,12 +21,12 @@ body, a:link, a:visited, a:active{
   background-color: #777;
 }
 .dancer, .blinkyDancer{
-  border:10px solid red;
+  border:10px solid darkRed;
   border-radius:10px;
   position:absolute;
 }
 
 .squareDancer{
-  border:10px solid rgb(125, 205, 40);
+  border:25px solid rgb(125, 205, 40);
   position:absolute;
 }

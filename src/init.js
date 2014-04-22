@@ -4,8 +4,61 @@ $(document).ready(function(){
     var elements = window.dancers;
     var delta = $("body").width() / elements.length;
     for (var i = 0; i < elements.length; i++) {
-      elements[i].setPosition($("body").height()*0.75, i*delta);
+      // elements[i].setPosition($("body").height()*0.90, i*delta);
+      elements[i].$node.animate({
+        top: $("body").height()*0.90,
+        left: i * delta
+      }, 1000);
     }
+  });
+
+  $(".squareDancer").on('click', function() {
+    var distances = [];
+    var left = parseInt($(this).css('left').substr(0, $(this).css('left').length-2));
+    var top = parseInt($(this).css('top').substr(0, $(this).css('top').length-2));
+    for (var j = 0; j < window.dancers.length; j++) {
+      var element2 = window.dancers[j];
+      var distance = Math.abs(top - parseInt(element2.$node.css('top').substr(0, element2.$node.css('top').length-2))) +
+        Math.abs(left - parseInt(element2.$node.css('left').substr(0, element2.$node.css('left').length-2)));
+      distances.push([$(this), element2, distance]);
+    }
+    distances.sort(function(a,b){return a[2]-b[2];});
+    console.log(distances);
+    for (var k = 1; k < 6; k++) {
+      distances[k][1].$node.animate({
+        top: 100,
+        left: 100
+      }, 5000);
+    }
+  });
+
+  $(".thingy").on("click", function() {
+    // var count = 0;
+    // while (count < 20) {
+      // var results = _.map(window.dancers, function(element){
+      //   var distances = [];
+      //   var left = parseInt(element.$node.css('left').substr(0, element.$node.css('left').length-2));
+      //   var top = parseInt(element.$node.css('top').substr(0, element.$node.css('top').length-2));
+      //   for (var j = 0; j < window.dancers.length; j++) {
+      //     var element2 = window.dancers[j];
+      //     var distance = Math.abs(top - parseInt(element2.$node.css('top').substr(0, element2.$node.css('top').length-2))) +
+      //       Math.abs(left - parseInt(element2.$node.css('left').substr(0, element2.$node.css('left').length-2)));
+      //     distances.push([element, element2, distance]);
+      //   }
+      //   distances.sort(function(a,b){return a[2]-b[2];});
+      //   return distances;
+      // });
+
+      // for (var k = 0; k < results.length; k++) {
+      //   results[k][0].$node.text(k);
+      //   results[k][1].$node.text(k);
+      //   results[k][1].$node.animate({
+      //     top: results[k][0].$node.css('top'),
+      //     left: results[k][0].$node.css('left')
+      //   }, 5000);
+      // }
+    //   count++;
+    // }
   });
 
   $(".addDancerButton").on("click", function(event){
@@ -30,12 +83,20 @@ $(document).ready(function(){
     // make a dancer with a random position
 
     var dancer = new dancerMakerFunction(
-      $("body").height() * Math.random(),
-      $("body").width() * Math.random(),
+      Math.max($("body").height() * Math.random() - 50, 50),
+      Math.max($("body").width() * Math.random() - 50, 0),
       Math.random() * 1000
     );
+
     window.dancers.push(dancer);
     $('body').append(dancer.$node);
+    // $(".squareDancer").hover(function() {
+    //   $(this).css({'border-width': '50px'});
+    //   $(this).text(':-)');
+    // }, function() {
+    //   $(this).css({'border-width': '25px'});
+    //   $(this).text('');
+    // });
   });
 });
 
